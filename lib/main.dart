@@ -1,13 +1,16 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ostrich_service/core/services/http_client.dart';
 import 'package:ostrich_service/core/services/platform_services.dart';
 import 'package:ostrich_service/core/services/service_locator.dart';
+import 'package:ostrich_service/routes/app_router.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   serviceLocator();
 
   /// Initializing HTTP client.
@@ -40,6 +43,12 @@ class OstrichServiceWidget extends StatefulWidget {
 class _OstrichServiceWidgetState extends State<OstrichServiceWidget> {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router();
+    return AnnotatedRegion(
+      value: SystemUiOverlayStyle(
+        systemNavigationBarColor: Colors.white.withValues(alpha: 0.002),
+        systemNavigationBarIconBrightness: Brightness.dark,
+      ),
+      child: MaterialApp.router(routerConfig: router),
+    );
   }
 }

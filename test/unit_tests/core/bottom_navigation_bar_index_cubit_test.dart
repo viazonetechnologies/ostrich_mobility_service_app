@@ -7,6 +7,6 @@ void main() {
     build: () => BottomNavigationBarIndexCubit(),
     act: (bloc) => [bloc.changeIndex(5), bloc.changeIndex(3)],
     expect: () => [5, 3],
-    tearDown: () => BottomNavigationBarIndexCubit().close(),
+    tearDown: () async => await BottomNavigationBarIndexCubit().close(),
   );
 }

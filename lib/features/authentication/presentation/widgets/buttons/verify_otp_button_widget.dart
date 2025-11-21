@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:ostrich_service/core/constants/app_colors.dart';
 import 'package:ostrich_service/core/constants/app_icons.dart';
 
-class SendOtpButtonWidget extends StatelessWidget {
-  const SendOtpButtonWidget({super.key});
+class VerifyOtpButtonWidget extends StatelessWidget {
+  const VerifyOtpButtonWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +19,7 @@ class SendOtpButtonWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         mainAxisSize: MainAxisSize.min,
         spacing: 5.0,
-        children: [AppIcons.sendIcon, Text('Send OTP')],
+        children: [AppIcons.sendIcon, Text('Verify OTP')],
       ),
     );
   }

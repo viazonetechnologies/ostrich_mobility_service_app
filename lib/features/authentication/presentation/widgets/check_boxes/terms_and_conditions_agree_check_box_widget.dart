@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:ostrich_service/core/constants/app_colors.dart';
 import 'package:ostrich_service/features/authentication/presentation/bloc/terms_and_conditions_check_cubit.dart';
 
 class TermsAndConditionsAgreeCheckBoxWidget extends StatelessWidget {
@@ -10,6 +11,7 @@ class TermsAndConditionsAgreeCheckBoxWidget extends StatelessWidget {
     return BlocBuilder<TermsAndConditionsCheckCubit, bool>(
       builder: (context, isChecked) {
         return Checkbox(
+          activeColor: AppColors.primaryColor,
           // By default value needs to be false.
           value: isChecked,
           onChanged: (value) {

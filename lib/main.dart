@@ -3,14 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:ostrich_service/core/constants/app_colors.dart';
 import 'package:ostrich_service/core/services/http_client.dart';
 import 'package:ostrich_service/core/services/platform_services.dart';
 import 'package:ostrich_service/core/services/service_locator.dart';
 import 'package:ostrich_service/routes/app_router.dart';
 
-Future<void> main() async {
+void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  await SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
   serviceLocator();
 
   /// Initializing HTTP client.
@@ -28,6 +28,8 @@ Future<void> main() async {
     aOptions: AndroidOptions(encryptedSharedPreferences: true),
     iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock),
   );
+
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
   /// Run the app.
   runApp(const OstrichServiceWidget());
@@ -48,7 +50,15 @@ class _OstrichServiceWidgetState extends State<OstrichServiceWidget> {
         systemNavigationBarColor: Colors.white.withValues(alpha: 0.002),
         systemNavigationBarIconBrightness: Brightness.dark,
       ),
-      child: MaterialApp.router(routerConfig: router),
+      child: MaterialApp.router(
+        routerConfig: router,
+        theme: ThemeData(
+          fontFamily: 'Ubuntu',
+          textSelectionTheme: const TextSelectionThemeData(
+            cursorColor: AppColors.primaryColor,
+          ),
+        ),
+      ),
     );
   }
 }

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ostrich_service/core/constants/app_colors.dart';
 import 'package:ostrich_service/core/constants/app_strings.dart';
-import 'package:ostrich_service/core/cubits/obscure_password_cubit.dart';
+import 'package:ostrich_service/features/authentication/presentation/bloc/obscure_password_cubit.dart';
 import 'package:ostrich_service/features/authentication/presentation/widgets/buttons/go_to_sign_up_page_button_widget.dart';
 import 'package:ostrich_service/features/authentication/presentation/widgets/forms/login_form_widget.dart';
 import 'package:ostrich_service/features/authentication/state_helpers/auth_controllers.dart';

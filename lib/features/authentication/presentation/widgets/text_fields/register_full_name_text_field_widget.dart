@@ -12,6 +12,10 @@ class RegisterFullNameTextFieldWidget extends StatelessWidget {
     return TextFormField(
       controller: GetIt.I<AuthControllers>().registerFullName,
       decoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide(color: Colors.grey[300]!),
+        ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide(color: Colors.grey[300]!),
@@ -27,7 +31,7 @@ class RegisterFullNameTextFieldWidget extends StatelessWidget {
       validator: (value) {
         if (value == null || value.trim().isEmpty) {
           // User not entered anything!.
-          return 'Please enter your full name';
+          return 'Please enter full name';
         }
         return null;
       },

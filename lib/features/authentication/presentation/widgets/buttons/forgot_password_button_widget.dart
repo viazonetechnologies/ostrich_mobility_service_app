@@ -10,7 +10,10 @@ class ForgotPasswordButtonWidget extends StatelessWidget {
       onPressed: () {
         // Go to password reset page.
       },
-      child: const Text(AppStrings.forgotPassword),
+      child: const Text(
+        AppStrings.forgotPassword,
+        style: TextStyle(color: Colors.black),
+      ),
     );
   }
 }

@@ -12,6 +12,10 @@ class RegisterEmailTextFieldWidget extends StatelessWidget {
     return TextFormField(
       controller: GetIt.I<AuthControllers>().registerEmail,
       decoration: InputDecoration(
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide(color: Colors.grey[300]!),
+        ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide(color: Colors.grey[300]!),
@@ -28,7 +32,7 @@ class RegisterEmailTextFieldWidget extends StatelessWidget {
       validator: (value) {
         if (value == null || value.trim().isEmpty) {
           // User not entered anything!.
-          return 'Please enter your email address';
+          return 'Please enter email address';
         }
         return null;
       },

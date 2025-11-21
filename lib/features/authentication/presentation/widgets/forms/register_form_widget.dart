@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:ostrich_service/core/globals/app_global_keys.dart';
 import 'package:ostrich_service/features/authentication/presentation/widgets/buttons/create_account_button_widget.dart';
+import 'package:ostrich_service/features/authentication/presentation/widgets/buttons/open_privacy_policy_button_widget.dart';
+import 'package:ostrich_service/features/authentication/presentation/widgets/buttons/open_terms_of_service_button_widget.dart';
 import 'package:ostrich_service/features/authentication/presentation/widgets/check_boxes/terms_and_conditions_agree_check_box_widget.dart';
 import 'package:ostrich_service/features/authentication/presentation/widgets/text_fields/register_email_text_field_widget.dart';
 import 'package:ostrich_service/features/authentication/presentation/widgets/text_fields/register_full_name_text_field_widget.dart';
@@ -25,13 +27,18 @@ class RegisterFormWidget extends StatelessWidget {
             RegisterPasswordTextFieldWidget(),
             RegisterPasswordConfirmTextFieldWidget(),
             Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
               spacing: 5.0,
               children: [
                 TermsAndConditionsAgreeCheckBoxWidget(),
                 Flexible(
-                  child: Text(
-                    'I agree to the Terms of Service and Privacy Policy',
+                  child: Wrap(
+                    crossAxisAlignment: WrapCrossAlignment.center,
+                    children: [
+                      Text('I agree to the'),
+                      OpenTermsOfServiceButtonWidget(),
+                      Text('and'),
+                      OpenPrivacyPolicyButtonWidget(),
+                    ],
                   ),
                 ),
               ],

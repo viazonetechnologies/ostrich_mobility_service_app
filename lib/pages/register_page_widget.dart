@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ostrich_service/core/constants/app_colors.dart';
 import 'package:ostrich_service/core/constants/app_strings.dart';
+import 'package:ostrich_service/features/authentication/presentation/bloc/obscure_password_cubit.dart';
+import 'package:ostrich_service/features/authentication/presentation/bloc/terms_and_conditions_check_cubit.dart';
 import 'package:ostrich_service/features/authentication/presentation/widgets/buttons/go_to_sign_in_page_button_widget.dart';
 import 'package:ostrich_service/features/authentication/presentation/widgets/forms/register_form_widget.dart';
 import 'package:ostrich_service/features/authentication/state_helpers/auth_controllers.dart';
@@ -33,14 +36,14 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
-      body: const SafeArea(
+      body: SafeArea(
         child: Padding(
-          padding: EdgeInsets.all(15.0),
+          padding: const EdgeInsets.all(15.0),
           child: SingleChildScrollView(
             child: Column(
               spacing: 10.0,
               children: [
-                FittedBox(
+                const FittedBox(
                   child: Text(
                     AppStrings.createAccount,
                     style: TextStyle(
@@ -49,14 +52,23 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                     ),
                   ),
                 ),
-                Text(
+                const Text(
                   'Join Ostrich Mobility to access all our services and support',
+                  textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.grey),
                 ),
-                RegisterFormWidget(),
-                Divider(),
-                Text(AppStrings.alreadyHaveAnAccount),
-                GoToSignInPageButtonWidget(),
+                MultiBlocProvider(
+                  providers: [
+                    BlocProvider(create: (context) => ObscurePasswordCubit()),
+                    BlocProvider(
+                      create: (context) => TermsAndConditionsCheckCubit(),
+                    ),
+                  ],
+                  child: const RegisterFormWidget(),
+                ),
+                const Divider(),
+                const Text(AppStrings.alreadyHaveAnAccount),
+                const GoToSignInPageButtonWidget(),
               ],
             ),
           ),

@@ -1,5 +1,5 @@
 /// Abstract interface to Local storage.
-abstract interface class LocalStorageServices {
+abstract interface class LocalStorageInterface {
   /// GET an item from the local storage.
   ///
   /// [key] Key used when storing the item on local storage.

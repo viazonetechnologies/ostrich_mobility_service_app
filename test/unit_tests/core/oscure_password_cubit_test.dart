@@ -1,5 +1,5 @@
 import 'package:bloc_test/bloc_test.dart';
-import 'package:ostrich_service/core/cubits/obscure_password_cubit.dart';
+import 'package:ostrich_service/features/authentication/presentation/bloc/obscure_password_cubit.dart';
 
 void main() {
   blocTest(

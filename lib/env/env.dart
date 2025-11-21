@@ -1,5 +1,7 @@
 import 'package:envied/envied.dart';
 
+part 'env.g.dart';
+
 /// class to access Environment variables.
 ///
 /// By default it looks for variables in **.env** file on **root directory**.
@@ -9,4 +11,13 @@ import 'package:envied/envied.dart';
 ///
 /// For more info visit https://pub.dev/packages/envied.
 @Envied()
-class Env {}
+class Env {
+  @EnviedField(obfuscate: true, varName: 'BASE_URL')
+  static final String baseUrl = _Env.baseUrl;
+
+  @EnviedField(varName: 'LOGIN')
+  static const String login = _Env.login;
+
+  @EnviedField(varName: 'LOGOUT')
+  static const String logout = _Env.logout;
+}

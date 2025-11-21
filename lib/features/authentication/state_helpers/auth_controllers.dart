@@ -9,4 +9,10 @@ class AuthControllers {
   TextEditingController registerOTP = TextEditingController();
   TextEditingController registerPassword = TextEditingController();
   TextEditingController registerPasswordConfirm = TextEditingController();
+
+  List<TextEditingController> registerOTPControllers = List.generate(
+    5,
+    (_) => TextEditingController(),
+  );
+  List<FocusNode> registerOTPFocusNodes = List.generate(5, (_) => FocusNode());
 }

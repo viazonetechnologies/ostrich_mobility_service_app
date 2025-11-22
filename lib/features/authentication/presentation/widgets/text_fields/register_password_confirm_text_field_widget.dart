@@ -16,22 +16,10 @@ class RegisterPasswordConfirmTextFieldWidget extends StatelessWidget {
       builder: (context, isObscure) {
         return TextFormField(
           controller: GetIt.I<AuthControllers>().registerPasswordConfirm,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              borderSide: BorderSide(color: Colors.grey[300]!),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              borderSide: BorderSide(color: Colors.grey[300]!),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              borderSide: BorderSide(color: Colors.grey[300]!),
-            ),
+          decoration: const InputDecoration(
             hintText: AppStrings.confirmYourPassword,
             prefixIcon: AppIcons.lockIcon,
-            suffixIcon: const ObscurePasswordButtonWidget(),
+            suffixIcon: ObscurePasswordButtonWidget(),
           ),
           obscureText: isObscure,
           onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),

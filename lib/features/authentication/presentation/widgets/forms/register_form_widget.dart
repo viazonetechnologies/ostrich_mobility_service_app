@@ -33,6 +33,7 @@ class RegisterFormWidget extends StatelessWidget {
                 Flexible(
                   child: Wrap(
                     crossAxisAlignment: WrapCrossAlignment.center,
+                    spacing: 5.0,
                     children: [
                       Text('I agree to the'),
                       OpenTermsOfServiceButtonWidget(),

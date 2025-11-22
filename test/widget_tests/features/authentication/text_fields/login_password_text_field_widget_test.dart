@@ -27,7 +27,7 @@ void main() {
     final textFormField = find.byType(TextFormField);
     expect(textFormField, findsOneWidget);
     expect(find.byType(ObscurePasswordButtonWidget), findsOneWidget);
-    expect(find.text(AppStrings.enterYourPassword), findsOneWidget);
+    expect(find.text(AppStrings.enterPassword), findsOneWidget);
 
     // Get reference to the text field controller
     final loginPassword = GetIt.I<AuthControllers>().loginPassword;

@@ -25,21 +25,7 @@ class _RegisterOtpTextFieldWidgetState
       (index) => Flexible(
         child: TextField(
           controller: otpControllers[index],
-          decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              borderSide: BorderSide(color: Colors.grey[300]!),
-            ),
-            counterText: '',
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              borderSide: BorderSide(color: Colors.grey[300]!),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              borderSide: BorderSide(color: Colors.grey[300]!),
-            ),
-          ),
+          decoration: const InputDecoration(counterText: ''),
           focusNode: otpFocusNodes[index],
           key: Key('OTP Field $index'),
           keyboardType: TextInputType.number,

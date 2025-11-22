@@ -11,20 +11,8 @@ class LoginUserNameTextFieldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: GetIt.I<AuthControllers>().loginUsername,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide(color: Colors.grey[300]!),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide(color: Colors.grey[300]!),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide(color: Colors.grey[300]!),
-        ),
-        hintText: AppStrings.enterYourUsername,
+      decoration: const InputDecoration(
+        hintText: AppStrings.enterUsername,
         prefixIcon: AppIcons.personIcon,
       ),
       onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),

@@ -31,7 +31,7 @@ class _RegisterOtpVerificationPageWidgetState
         backgroundColor: AppColors.primaryColor,
         centerTitle: true,
         title: const Text(
-          AppStrings.appName,
+          AppStrings.ostrichMobility,
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
@@ -44,12 +44,13 @@ class _RegisterOtpVerificationPageWidgetState
             children: [
               FittedBox(
                 child: Text(
-                  'OTP Verification',
+                  AppStrings.otpVerification,
                   style: TextStyle(fontSize: 25.0, fontWeight: FontWeight.bold),
                 ),
               ),
               Text(
-                'Enter your mobile number or email to receive a verification code',
+                AppStrings
+                    .enterYourMobileNumberOrEmailToReceiveAVerificationCode,
                 textAlign: TextAlign.center,
               ),
               RegisterOtpTextFieldWidget(),

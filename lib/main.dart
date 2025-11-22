@@ -1,34 +1,28 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:get_it/get_it.dart';
+import 'package:ostrich_service/core/configs/app_theme.dart';
 import 'package:ostrich_service/core/constants/app_colors.dart';
 import 'package:ostrich_service/core/services/http_client.dart';
 import 'package:ostrich_service/core/services/platform_services.dart';
 import 'package:ostrich_service/core/services/service_locator.dart';
 import 'package:ostrich_service/routes/app_router.dart';
+import 'package:ostrich_service/utils/helpers/network_helper/http_client_helper.dart';
+import 'package:ostrich_service/utils/helpers/network_helper/network_helper/network_helper.dart';
+import 'package:ostrich_service/utils/helpers/platform_helper.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+
+  /// Register services.
   serviceLocator();
 
   /// Initializing HTTP client.
-  GetIt.I<HttpClient>().httpClient = Dio(
-    BaseOptions(
-      connectTimeout: const Duration(seconds: 15),
-      receiveTimeout: const Duration(seconds: 15),
-      sendTimeout: const Duration(seconds: 15),
-    ),
-  );
+  GetIt.I<HttpClient>().httpClient = HttpClientHelper.httpClient();
 
   /// Initializing all platform services here.
   final platformServices = GetIt.I<PlatformServices>();
-  platformServices.secureStorage = const FlutterSecureStorage(
-    aOptions: AndroidOptions(encryptedSharedPreferences: true),
-    iOptions: IOSOptions(accessibility: KeychainAccessibility.first_unlock),
-  );
-
+  platformServices.secureStorage = PlatformHelper.secureStorage();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
 
   /// Run the app.
@@ -43,6 +37,17 @@ class OstrichServiceWidget extends StatefulWidget {
 }
 
 class _OstrichServiceWidgetState extends State<OstrichServiceWidget> {
+  /// Helps to listens on network status and other network related operations.
+  late NetworkHelper _networkHelper;
+
+  @override
+  void initState() {
+    super.initState();
+    _networkHelper = GetIt.I<NetworkHelper>(instanceName: 'native');
+    // Start listening on the network connection status.
+    _networkHelper.startListenNetworkConnectionStatus();
+  }
+
   @override
   Widget build(BuildContext context) {
     return AnnotatedRegion(
@@ -53,12 +58,25 @@ class _OstrichServiceWidgetState extends State<OstrichServiceWidget> {
       child: MaterialApp.router(
         routerConfig: router,
         theme: ThemeData(
-          fontFamily: 'Ubuntu',
+          appBarTheme: AppTheme.appBarTheme,
+          bottomNavigationBarTheme: AppTheme.bottomNavigationBarTheme,
+          bottomSheetTheme: AppTheme.bottomSheetTheme,
+          colorScheme: AppTheme.colorScheme,
+          dialogTheme: AppTheme.dialogTheme,
+          fontFamily: AppTheme.fontFamily,
+          inputDecorationTheme: AppTheme.inputDecorationTheme,
           textSelectionTheme: const TextSelectionThemeData(
             cursorColor: AppColors.primaryColor,
           ),
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    // Dispose services.
+    _networkHelper.stopListenNetworkConnectionStatus();
+    super.dispose();
   }
 }

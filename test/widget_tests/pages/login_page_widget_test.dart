@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get_it/get_it.dart';
 import 'package:ostrich_service/features/authentication/presentation/bloc/obscure_password_cubit.dart';
-import 'package:ostrich_service/features/authentication/presentation/bloc/terms_and_conditions_check_cubit.dart';
 import 'package:ostrich_service/features/authentication/presentation/widgets/buttons/go_to_sign_up_page_button_widget.dart';
 import 'package:ostrich_service/features/authentication/presentation/widgets/buttons/login_button_widget.dart';
 import 'package:ostrich_service/features/authentication/presentation/widgets/text_fields/login_password_text_field_widget.dart';
@@ -20,13 +19,12 @@ void main() {
   });
 
   testWidgets('Login page widget test', (tester) async {
-    await tester.binding.setSurfaceSize(testMobileScreenSize);
+    await tester.binding.setSurfaceSize(testDeviceScreenSize);
     await tester.pumpWidget(
       MaterialApp(
         home: MultiBlocProvider(
           providers: [
             BlocProvider(create: (context) => ObscurePasswordCubit()),
-            BlocProvider(create: (context) => TermsAndConditionsCheckCubit()),
           ],
           child: const LoginPageWidget(),
         ),

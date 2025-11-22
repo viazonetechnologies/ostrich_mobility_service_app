@@ -32,7 +32,7 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
         backgroundColor: AppColors.primaryColor,
         centerTitle: true,
         title: const Text(
-          AppStrings.appName,
+          AppStrings.ostrichMobility,
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),
@@ -53,7 +53,8 @@ class _RegisterPageWidgetState extends State<RegisterPageWidget> {
                   ),
                 ),
                 const Text(
-                  'Join Ostrich Mobility to access all our services and support',
+                  AppStrings
+                      .joinOstrichMobilityToAccessAllOurServicesAndSupport,
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.grey),
                 ),

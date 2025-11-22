@@ -16,7 +16,7 @@ void main() {
 
     final textFormField = find.byType(TextFormField);
     expect(textFormField, findsOneWidget);
-    expect(find.text(AppStrings.enterYourUsername), findsOneWidget);
+    expect(find.text(AppStrings.enterUsername), findsOneWidget);
 
     // Get reference to the text field controller
     final loginUserName = GetIt.I<AuthControllers>().loginUsername;

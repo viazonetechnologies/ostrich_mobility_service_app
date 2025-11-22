@@ -23,7 +23,7 @@ void main() {
   });
 
   testWidgets('Register page widget test', (tester) async {
-    await tester.binding.setSurfaceSize(testMobileScreenSize);
+    await tester.binding.setSurfaceSize(testDeviceScreenSize);
     await tester.pumpWidget(
       MaterialApp(
         home: MultiBlocProvider(

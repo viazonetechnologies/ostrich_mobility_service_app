@@ -11,20 +11,8 @@ class RegisterEmailTextFieldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: GetIt.I<AuthControllers>().registerEmail,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide(color: Colors.grey[300]!),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide(color: Colors.grey[300]!),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide(color: Colors.grey[300]!),
-        ),
-        hintText: AppStrings.enterYourEmail,
+      decoration: const InputDecoration(
+        hintText: AppStrings.enterEmail,
         prefixIcon: AppIcons.emailIcon,
       ),
       keyboardType: TextInputType.emailAddress,

@@ -16,22 +16,10 @@ class LoginPasswordTextFieldWidget extends StatelessWidget {
       builder: (context, isObscure) {
         return TextFormField(
           controller: GetIt.I<AuthControllers>().loginPassword,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              borderSide: BorderSide(color: Colors.grey[300]!),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              borderSide: BorderSide(color: Colors.grey[300]!),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10.0),
-              borderSide: BorderSide(color: Colors.grey[300]!),
-            ),
-            hintText: AppStrings.enterYourPassword,
+          decoration: const InputDecoration(
+            hintText: AppStrings.enterPassword,
             prefixIcon: AppIcons.lockIcon,
-            suffixIcon: const ObscurePasswordButtonWidget(),
+            suffixIcon: ObscurePasswordButtonWidget(),
           ),
           obscureText: isObscure,
           onTapOutside: (_) => FocusManager.instance.primaryFocus?.unfocus(),

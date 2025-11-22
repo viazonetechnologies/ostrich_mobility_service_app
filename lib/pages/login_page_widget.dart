@@ -31,7 +31,7 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
         backgroundColor: AppColors.primaryColor,
         centerTitle: true,
         title: const Text(
-          AppStrings.appName,
+          AppStrings.ostrichMobility,
           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
         ),
       ),

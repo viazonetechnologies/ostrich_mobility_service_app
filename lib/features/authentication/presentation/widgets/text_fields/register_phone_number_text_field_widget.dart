@@ -11,20 +11,8 @@ class RegisterPhoneNumberTextFieldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: GetIt.I<AuthControllers>().registerMobile,
-      decoration: InputDecoration(
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide(color: Colors.grey[300]!),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide(color: Colors.grey[300]!),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(10.0),
-          borderSide: BorderSide(color: Colors.grey[300]!),
-        ),
-        hintText: AppStrings.enterYourMobileNumber,
+      decoration: const InputDecoration(
+        hintText: AppStrings.enterMobileNumber,
         prefixIcon: AppIcons.phoneIcon,
       ),
       keyboardType: TextInputType.phone,

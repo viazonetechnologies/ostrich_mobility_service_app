@@ -1,12 +1,16 @@
 import 'package:go_router/go_router.dart';
 import 'package:ostrich_service/pages/login_page_widget.dart';
+import 'package:ostrich_service/pages/main_page_widget.dart';
 import 'package:ostrich_service/pages/register_otp_verification_page_widget.dart';
 import 'package:ostrich_service/pages/register_page_widget.dart';
 import 'package:ostrich_service/routes/nav_routes.dart';
 
 final _router = GoRouter(
-  initialLocation: NavRoutes.loginPage,
   routes: [
+    GoRoute(
+      path: NavRoutes.mainPage,
+      builder: (context, state) => const MainPageWidget(),
+    ),
     GoRoute(
       path: NavRoutes.loginPage,
       builder: (context, state) => const LoginPageWidget(),

@@ -15,7 +15,7 @@ void main() {
   });
 
   testWidgets('OTP Verification page widget test', (tester) async {
-    await tester.binding.setSurfaceSize(testMobileScreenSize);
+    await tester.binding.setSurfaceSize(testDeviceScreenSize);
     await tester.pumpWidget(
       const MaterialApp(home: RegisterOtpVerificationPageWidget()),
     );

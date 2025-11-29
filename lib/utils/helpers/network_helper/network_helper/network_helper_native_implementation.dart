@@ -30,7 +30,7 @@ class NetworkHelperNativeImplementation implements NetworkHelper {
     _streamSubscription = GetIt.I<PlatformServices>().eventChannel
         .receiveBroadcastStream()
         .listen((data) {
-          data == 'online' ? _hasInternet = true : _hasInternet = false;
+          _hasInternet = data == 'online' ? true : false;
         }, onError: (_) => _streamSubscription?.cancel());
   }
 

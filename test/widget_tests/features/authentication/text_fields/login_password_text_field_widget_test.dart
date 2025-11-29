@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:get_it/get_it.dart';
 import 'package:ostrich_service/core/constants/app_strings.dart';
 import 'package:ostrich_service/features/authentication/presentation/bloc/obscure_password_cubit.dart';
+import 'package:ostrich_service/features/authentication/presentation/providers/authentication_controllers_provider.dart';
 import 'package:ostrich_service/features/authentication/presentation/widgets/buttons/obscure_password_button_widget.dart';
 import 'package:ostrich_service/features/authentication/presentation/widgets/text_fields/login_password_text_field_widget.dart';
-import 'package:ostrich_service/features/authentication/state_helpers/auth_controllers.dart';
+import 'package:provider/provider.dart';
 
 void main() {
-  setUp(() {
-    GetIt.I.registerLazySingleton(() => AuthControllers());
-  });
   testWidgets('Login password text field widget test', (tester) async {
     await tester.pumpWidget(
       MaterialApp(
         home: Material(
-          child: BlocProvider(
-            create: (context) => ObscurePasswordCubit(),
+          child: MultiProvider(
+            providers: [
+              BlocProvider(create: (context) => ObscurePasswordCubit()),
+              ChangeNotifierProvider(
+                create: (context) => AuthenticationControllersProvider(),
+              ),
+            ],
             child: const LoginPasswordTextFieldWidget(),
           ),
         ),
@@ -29,8 +31,10 @@ void main() {
     expect(find.byType(ObscurePasswordButtonWidget), findsOneWidget);
     expect(find.text(AppStrings.enterPassword), findsOneWidget);
 
-    // Get reference to the text field controller
-    final loginPassword = GetIt.I<AuthControllers>().loginPassword;
+    final loginPassword = Provider.of<AuthenticationControllersProvider>(
+      tester.element(find.byType(LoginPasswordTextFieldWidget)),
+      listen: false,
+    ).loginPasswordController;
 
     // Ensures that, initially the controller is empty.
     expect(loginPassword.value.text.isEmpty, true);

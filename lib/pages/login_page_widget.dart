@@ -1,28 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:ostrich_service/core/constants/app_colors.dart';
 import 'package:ostrich_service/core/constants/app_strings.dart';
 import 'package:ostrich_service/features/authentication/presentation/bloc/obscure_password_cubit.dart';
+import 'package:ostrich_service/features/authentication/presentation/providers/authentication_controllers_provider.dart';
 import 'package:ostrich_service/features/authentication/presentation/widgets/buttons/go_to_sign_up_page_button_widget.dart';
 import 'package:ostrich_service/features/authentication/presentation/widgets/forms/login_form_widget.dart';
-import 'package:ostrich_service/features/authentication/state_helpers/auth_controllers.dart';
+import 'package:provider/provider.dart';
 
-class LoginPageWidget extends StatefulWidget {
+class LoginPageWidget extends StatelessWidget {
   const LoginPageWidget({super.key});
-
-  @override
-  State<LoginPageWidget> createState() => _LoginPageWidgetState();
-}
-
-class _LoginPageWidgetState extends State<LoginPageWidget> {
-  late AuthControllers _authControllers;
-
-  @override
-  void initState() {
-    super.initState();
-    _authControllers = GetIt.I<AuthControllers>();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,9 +37,13 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  MultiBlocProvider(
+                  MultiProvider(
                     providers: [
                       BlocProvider(create: (context) => ObscurePasswordCubit()),
+                      ChangeNotifierProvider(
+                        create: (context) =>
+                            AuthenticationControllersProvider(),
+                      ),
                     ],
                     child: const LoginFormWidget(),
                   ),
@@ -69,13 +60,5 @@ class _LoginPageWidgetState extends State<LoginPageWidget> {
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    // Clear all login input data
-    _authControllers.loginUsername.clear();
-    _authControllers.loginPassword.clear();
-    super.dispose();
   }
 }

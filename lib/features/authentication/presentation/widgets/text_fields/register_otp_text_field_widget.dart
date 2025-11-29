@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import 'package:ostrich_service/features/authentication/state_helpers/auth_controllers.dart';
+import 'package:ostrich_service/features/authentication/presentation/providers/authentication_controllers_provider.dart';
+import 'package:provider/provider.dart';
 
 class RegisterOtpTextFieldWidget extends StatefulWidget {
   const RegisterOtpTextFieldWidget({super.key});
@@ -17,7 +17,10 @@ class _RegisterOtpTextFieldWidgetState
   @override
   void initState() {
     super.initState();
-    final authController = GetIt.I<AuthControllers>();
+    final authController = Provider.of<AuthenticationControllersProvider>(
+      context,
+      listen: false,
+    );
     final otpControllers = authController.registerOTPControllers;
     final otpFocusNodes = authController.registerOTPFocusNodes;
     _otpFields = List.generate(

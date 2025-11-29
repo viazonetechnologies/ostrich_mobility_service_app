@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:get_it/get_it.dart';
+import 'package:ostrich_service/features/authentication/presentation/providers/authentication_controllers_provider.dart';
 import 'package:ostrich_service/features/authentication/presentation/widgets/buttons/verify_otp_button_widget.dart';
 import 'package:ostrich_service/features/authentication/presentation/widgets/text_fields/register_otp_text_field_widget.dart';
-import 'package:ostrich_service/features/authentication/state_helpers/auth_controllers.dart';
 import 'package:ostrich_service/pages/register_otp_verification_page_widget.dart';
+import 'package:provider/provider.dart';
 
 import '../../helpers/test_helpers.dart';
 
 void main() {
-  setUp(() {
-    // Since many inputs using the [AuthControllers]
-    GetIt.I.registerLazySingleton(() => AuthControllers());
-  });
-
   testWidgets('OTP Verification page widget test', (tester) async {
     await tester.binding.setSurfaceSize(testDeviceScreenSize);
     await tester.pumpWidget(
-      const MaterialApp(home: RegisterOtpVerificationPageWidget()),
+      MaterialApp(
+        home: MultiProvider(
+          providers: [
+            ChangeNotifierProvider(
+              create: (context) => AuthenticationControllersProvider(),
+            ),
+          ],
+          child: const RegisterOtpVerificationPageWidget(),
+        ),
+      ),
     );
 
     // Ensures that no overflow error.

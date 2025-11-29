@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
 import 'package:ostrich_service/core/constants/app_icons.dart';
 import 'package:ostrich_service/core/constants/app_strings.dart';
-import 'package:ostrich_service/features/authentication/state_helpers/auth_controllers.dart';
+import 'package:ostrich_service/features/authentication/presentation/providers/authentication_controllers_provider.dart';
+import 'package:provider/provider.dart';
 
 class LoginUserNameTextFieldWidget extends StatelessWidget {
   const LoginUserNameTextFieldWidget({super.key});
@@ -10,7 +10,10 @@ class LoginUserNameTextFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: GetIt.I<AuthControllers>().loginUsername,
+      controller: Provider.of<AuthenticationControllersProvider>(
+        context,
+        listen: false,
+      ).loginUsernameController,
       decoration: const InputDecoration(
         hintText: AppStrings.enterUsername,
         prefixIcon: AppIcons.personIcon,

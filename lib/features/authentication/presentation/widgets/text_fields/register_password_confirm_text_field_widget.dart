@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:ostrich_service/core/constants/app_icons.dart';
 import 'package:ostrich_service/core/constants/app_strings.dart';
 import 'package:ostrich_service/features/authentication/presentation/bloc/obscure_password_cubit.dart';
+import 'package:ostrich_service/features/authentication/presentation/providers/authentication_controllers_provider.dart';
 import 'package:ostrich_service/features/authentication/presentation/widgets/buttons/obscure_password_button_widget.dart';
-import 'package:ostrich_service/features/authentication/state_helpers/auth_controllers.dart';
+import 'package:provider/provider.dart';
 
 class RegisterPasswordConfirmTextFieldWidget extends StatelessWidget {
   const RegisterPasswordConfirmTextFieldWidget({super.key});
@@ -15,7 +15,10 @@ class RegisterPasswordConfirmTextFieldWidget extends StatelessWidget {
     return BlocBuilder<ObscurePasswordCubit, bool>(
       builder: (context, isObscure) {
         return TextFormField(
-          controller: GetIt.I<AuthControllers>().registerPasswordConfirm,
+          controller: Provider.of<AuthenticationControllersProvider>(
+            context,
+            listen: false,
+          ).registerPasswordConfirmController,
           decoration: const InputDecoration(
             hintText: AppStrings.confirmYourPassword,
             prefixIcon: AppIcons.lockIcon,

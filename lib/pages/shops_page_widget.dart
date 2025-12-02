@@ -6,14 +6,9 @@ import 'package:ostrich_service/features/service_center/presentation/widgets/lis
 import 'package:ostrich_service/features/service_center/presentation/widgets/list_views/service_locations_list_view_widget.dart';
 import 'package:ostrich_service/features/service_center/presentation/widgets/text_fields/search_service_center_text_field_widget.dart';
 
-class ShopsPageWidget extends StatefulWidget {
+class ShopsPageWidget extends StatelessWidget {
   const ShopsPageWidget({super.key});
 
-  @override
-  State<ShopsPageWidget> createState() => _ShopsPageWidgetState();
-}
-
-class _ShopsPageWidgetState extends State<ShopsPageWidget> {
   @override
   Widget build(BuildContext context) {
     return PopScope(

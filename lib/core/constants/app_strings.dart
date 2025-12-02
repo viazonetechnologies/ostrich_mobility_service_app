@@ -1,6 +1,8 @@
 class AppStrings {
+  static const active = 'Active';
   static const alreadyHaveAnAccount = "Already have an account?";
   static const call = 'Call';
+  static const completed = 'Completed';
   static const confirmYourPassword = "Confirm Password";
   static const createAccount = 'Create Account';
   static const directions = 'Directions';
@@ -23,9 +25,12 @@ class AppStrings {
   static const otpVerification = 'OTP Verification';
   static const password = "Password";
   static const privacyPolicy = 'Privacy Policy';
+  static const serviceDashboard = 'Service Dashboard';
   static const shops = 'Shops';
   static const signUp = "Signup";
   static const termsOfService = 'Terms of Service';
   static const tickets = 'Tickets';
+  static const viewDetails = 'View Details';
+  static const updateStatus = 'Update Status';
   static const username = "Username";
 }

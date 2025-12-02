@@ -6,6 +6,7 @@ import 'package:ostrich_service/utils/helpers/network_helper/network_helper/netw
 import 'package:ostrich_service/utils/helpers/network_helper/network_helper/network_helper_native_implementation.dart';
 import 'package:ostrich_service/utils/local_storage/local_storage_interface.dart';
 import 'package:ostrich_service/utils/local_storage/secure_storage_services.dart';
+import 'package:ostrich_service/utils/local_storage/token_manager.dart';
 
 void serviceLocator() {
   coreServices();
@@ -34,4 +35,5 @@ void utilsServices() {
     () => SecureStorageServices(),
     instanceName: 'secureStorage',
   );
+  GetIt.I.registerLazySingleton(() => TokenManager());
 }

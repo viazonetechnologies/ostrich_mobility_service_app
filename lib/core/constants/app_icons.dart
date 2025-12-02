@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 class AppIcons {
   static const emailIcon = Icon(Icons.email);
+  static const editIcon = Icon(Icons.edit_document);
   static const eyeIcon = Icon(Icons.visibility);
   static const eyeOffIcon = Icon(Icons.visibility_off);
   static const homeIcon = Icon(CupertinoIcons.home);

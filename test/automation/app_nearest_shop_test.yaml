@@ -1,0 +1,10 @@
+appId: com.example.ostrich_service
+---
+- launchApp
+- tapOn: "Shops"
+- tapOn: "Directions"
+- back # It's only on android right now
+- tapOn: "Call"
+- back # It's only on android right now
+- clearState
+- stopApp

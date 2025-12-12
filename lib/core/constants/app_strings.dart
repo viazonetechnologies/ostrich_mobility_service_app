@@ -2,6 +2,7 @@ class AppStrings {
   static const active = 'Active';
   static const alreadyHaveAnAccount = "Already have an account?";
   static const call = 'Call';
+  static const close = 'Close';
   static const completed = 'Completed';
   static const confirmYourPassword = "Confirm Password";
   static const createAccount = 'Create Account';
@@ -10,6 +11,7 @@ class AppStrings {
   static const enquiry = 'Enquiry';
   static const enterEmail = "Enter Email";
   static const enterFullName = "Enter Fullname";
+  static const enterMessage = 'Enter Message';
   static const enterMobileNumber = "Enter Mobile";
   static const enterPassword = "Enter Password";
   static const enterUsername = "Enter Username";
@@ -20,7 +22,9 @@ class AppStrings {
   static const joinOstrichMobilityToAccessAllOurServicesAndSupport =
       'Join Ostrich Mobility to access all our services and support';
   static const login = "Login";
+  static const message = 'Message';
   static const nearestServiceCenter = 'Nearest Service Center';
+  static const optional = 'Optional';
   static const ostrichMobility = "Ostrich Mobility";
   static const otpVerification = 'OTP Verification';
   static const password = "Password";
@@ -29,8 +33,10 @@ class AppStrings {
   static const shops = 'Shops';
   static const signUp = "Signup";
   static const termsOfService = 'Terms of Service';
+  static const ticketDetails = 'Ticket Details';
   static const tickets = 'Tickets';
   static const viewDetails = 'View Details';
+  static const update = 'Update';
   static const updateStatus = 'Update Status';
   static const username = "Username";
 }

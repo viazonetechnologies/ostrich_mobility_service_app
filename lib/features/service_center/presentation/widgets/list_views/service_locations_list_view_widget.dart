@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ostrich_service/core/constants/app_colors.dart';
 import 'package:ostrich_service/core/constants/app_icons.dart';
 import 'package:ostrich_service/core/constants/app_strings.dart';
+import 'package:ostrich_service/utils/helpers/platform_helper.dart';
 
 class ServiceLocationsListViewWidget extends StatelessWidget {
   const ServiceLocationsListViewWidget({super.key});
@@ -90,7 +91,12 @@ class ServiceLocationsListViewWidget extends StatelessWidget {
                 children: [
                   Expanded(
                     child: MaterialButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        // Open Maps.
+                        final latitude = '9.979882';
+                        final longitude = '76.580307';
+                        PlatformHelper.launchMaps(latitude, longitude);
+                      },
                       color: AppColors.primaryColor,
                       elevation: 0.0,
                       padding: const EdgeInsets.all(10.0),
@@ -103,7 +109,7 @@ class ServiceLocationsListViewWidget extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         spacing: 5.0,
                         children: [
-                          Icon(AppIcons.phoneIcon.icon),
+                          Icon(AppIcons.mapIcon.icon),
                           const Flexible(
                             child: Text(
                               AppStrings.directions,
@@ -116,7 +122,11 @@ class ServiceLocationsListViewWidget extends StatelessWidget {
                   ),
                   Expanded(
                     child: MaterialButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        // Open default call app.
+                        final phone = '+919999999999';
+                        PlatformHelper.launchCallApp(phone);
+                      },
                       elevation: 0.0,
                       padding: const EdgeInsets.all(10.0),
                       shape: RoundedRectangleBorder(

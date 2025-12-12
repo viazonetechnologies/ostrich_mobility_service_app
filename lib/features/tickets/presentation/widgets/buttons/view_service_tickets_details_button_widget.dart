@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ostrich_service/core/constants/app_colors.dart';
 import 'package:ostrich_service/core/constants/app_icons.dart';
 import 'package:ostrich_service/core/constants/app_strings.dart';
+import 'package:ostrich_service/routes/nav_routes.dart';
 
 class ViewServiceTicketsDetailsButtonWidget extends StatelessWidget {
   const ViewServiceTicketsDetailsButtonWidget({super.key});
@@ -16,6 +18,7 @@ class ViewServiceTicketsDetailsButtonWidget extends StatelessWidget {
       textColor: Colors.white,
       onPressed: () {
         // Go to the Details view page for tickets
+        GoRouter.of(context).push(NavRoutes.ticketDetailsPage);
       },
       child: const Row(
         mainAxisAlignment: MainAxisAlignment.center,

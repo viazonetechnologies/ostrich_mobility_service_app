@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:ostrich_service/core/constants/app_colors.dart';
 import 'package:ostrich_service/core/constants/app_icons.dart';
 import 'package:ostrich_service/core/constants/app_strings.dart';
+import 'package:ostrich_service/features/tickets/presentation/providers/tickets_controller_provider.dart';
+import 'package:ostrich_service/features/tickets/presentation/widgets/dialogs/update_status_dialog_widget.dart';
+import 'package:provider/provider.dart';
 
 class UpdateTicketStatusButtonWidget extends StatelessWidget {
   const UpdateTicketStatusButtonWidget({super.key});
@@ -18,6 +21,13 @@ class UpdateTicketStatusButtonWidget extends StatelessWidget {
       textColor: AppColors.primaryColor,
       onPressed: () {
         // Go to the Details view page for tickets.
+        showDialog(
+          context: context,
+          builder: (context) => ChangeNotifierProvider(
+            create: (context) => TicketsControllerProvider(),
+            child: const UpdateStatusDialogWidget(),
+          ),
+        );
       },
       child: const Row(
         mainAxisAlignment: MainAxisAlignment.center,

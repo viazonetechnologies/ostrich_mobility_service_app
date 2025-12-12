@@ -3,6 +3,7 @@ import 'package:ostrich_service/pages/login_page_widget.dart';
 import 'package:ostrich_service/pages/main_page_widget.dart';
 import 'package:ostrich_service/pages/register_otp_verification_page_widget.dart';
 import 'package:ostrich_service/pages/register_page_widget.dart';
+import 'package:ostrich_service/pages/ticket_details_page_widget.dart';
 import 'package:ostrich_service/routes/nav_routes.dart';
 
 final _router = GoRouter(
@@ -22,6 +23,10 @@ final _router = GoRouter(
     GoRoute(
       path: NavRoutes.registerOtpPage,
       builder: (context, state) => const RegisterOtpVerificationPageWidget(),
+    ),
+    GoRoute(
+      path: NavRoutes.ticketDetailsPage,
+      builder: (context, state) => const TicketDetailsPageWidget(),
     ),
   ],
 );

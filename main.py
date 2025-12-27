@@ -157,178 +157,34 @@ def docs():
 def openapi():
     return {
         "openapi": "3.0.0",
-        "info": {"title": "Service Support API", "version": "1.0.0", "description": "Complete API for Service Technician Mobile App"},
+        "info": {"title": "Service Support API", "version": "1.0.0"},
         "paths": {
             "/auth/login": {
                 "post": {
-                    "summary": "Login technician",
                     "tags": ["Authentication"],
                     "requestBody": {
-                        "required": True,
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "username": {"type": "string", "description": "Username", "example": "service1"},
-                                        "password": {"type": "string", "description": "Password", "example": "admin123"}
-                                    },
-                                    "required": ["username", "password"]
-                                }
-                            }
-                        }
+                        "content": {"application/json": {"schema": {"type": "object", "properties": {"username": {"type": "string", "example": "service1"}, "password": {"type": "string", "example": "admin123"}}, "required": ["username", "password"]}}}
                     }
                 }
             },
-            "/auth/logout": {"post": {"summary": "Logout technician", "tags": ["Authentication"]}},
-            "/dashboard/stats": {
-                "get": {
-                    "summary": "Get dashboard statistics",
-                    "tags": ["Dashboard"],
-                    "parameters": [
-                        {"name": "technician_id", "in": "query", "schema": {"type": "integer"}, "description": "Technician ID"}
-                    ]
-                }
-            },
+            "/auth/logout": {"post": {"tags": ["Authentication"]}},
+            "/dashboard/stats": {"get": {"tags": ["Dashboard"], "parameters": [{"name": "technician_id", "in": "query", "schema": {"type": "integer"}}]}},
             "/tickets": {
-                "get": {
-                    "summary": "Get service tickets",
-                    "tags": ["Tickets"],
-                    "parameters": [
-                        {"name": "status", "in": "query", "schema": {"type": "string", "enum": ["open", "in_progress", "completed", "closed", "pending"]}, "description": "Ticket status"},
-                        {"name": "technician_id", "in": "query", "schema": {"type": "integer"}, "description": "Technician ID"},
-                        {"name": "priority", "in": "query", "schema": {"type": "string", "enum": ["low", "medium", "high", "urgent"]}, "description": "Priority level"}
-                    ]
-                },
-                "post": {
-                    "summary": "Create service ticket",
-                    "tags": ["Tickets"],
-                    "requestBody": {
-                        "required": True,
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "customer_id": {"type": "integer", "description": "Customer ID"},
-                                        "product_id": {"type": "integer", "description": "Product ID"},
-                                        "issue_description": {"type": "string", "description": "Issue description"},
-                                        "priority": {"type": "string", "enum": ["low", "medium", "high", "urgent"], "description": "Priority level"},
-                                        "assigned_technician_id": {"type": "integer", "description": "Assigned technician ID"}
-                                    },
-                                    "required": ["customer_id", "product_id", "issue_description"]
-                                }
-                            }
-                        }
-                    }
-                }
+                "get": {"tags": ["Tickets"], "parameters": [{"name": "status", "in": "query", "schema": {"type": "string", "enum": ["open", "in_progress", "completed", "closed", "pending"]}}, {"name": "technician_id", "in": "query", "schema": {"type": "integer"}}, {"name": "priority", "in": "query", "schema": {"type": "string", "enum": ["low", "medium", "high", "urgent"]}}]},
+                "post": {"tags": ["Tickets"], "requestBody": {"content": {"application/json": {"schema": {"type": "object", "properties": {"customer_id": {"type": "integer"}, "product_id": {"type": "integer"}, "issue_description": {"type": "string"}, "priority": {"type": "string", "enum": ["low", "medium", "high", "urgent"]}, "assigned_technician_id": {"type": "integer"}}, "required": ["customer_id", "product_id", "issue_description"]}}}}}
             },
             "/tickets/{ticket_id}": {
-                "get": {
-                    "summary": "Get ticket details",
-                    "tags": ["Tickets"],
-                    "parameters": [
-                        {"name": "ticket_id", "in": "path", "required": True, "schema": {"type": "integer"}, "description": "Ticket ID"}
-                    ]
-                },
-                "put": {
-                    "summary": "Update ticket",
-                    "tags": ["Tickets"],
-                    "parameters": [
-                        {"name": "ticket_id", "in": "path", "required": True, "schema": {"type": "integer"}, "description": "Ticket ID"}
-                    ],
-                    "requestBody": {
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "status": {"type": "string", "enum": ["open", "in_progress", "completed", "closed", "pending"], "description": "Ticket status"},
-                                        "priority": {"type": "string", "enum": ["low", "medium", "high", "urgent"], "description": "Priority level"},
-                                        "assigned_technician_id": {"type": "integer", "description": "Assigned technician ID"},
-                                        "notes": {"type": "string", "description": "Update notes"}
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
+                "get": {"tags": ["Tickets"], "parameters": [{"name": "ticket_id", "in": "path", "required": True, "schema": {"type": "integer"}}]},
+                "put": {"tags": ["Tickets"], "parameters": [{"name": "ticket_id", "in": "path", "required": True, "schema": {"type": "integer"}}], "requestBody": {"content": {"application/json": {"schema": {"type": "object", "properties": {"status": {"type": "string", "enum": ["open", "in_progress", "completed", "closed", "pending"]}, "priority": {"type": "string", "enum": ["low", "medium", "high", "urgent"]}, "assigned_technician_id": {"type": "integer"}, "notes": {"type": "string"}}}}}}}
             },
-            "/tickets/assigned": {
-                "get": {
-                    "summary": "Get assigned tickets",
-                    "tags": ["Tickets"],
-                    "parameters": [
-                        {"name": "technician_id", "in": "query", "schema": {"type": "integer"}, "description": "Technician ID"}
-                    ]
-                }
-            },
-            "/tickets/completed": {
-                "get": {
-                    "summary": "Get completed tickets",
-                    "tags": ["Tickets"],
-                    "parameters": [
-                        {"name": "technician_id", "in": "query", "schema": {"type": "integer"}, "description": "Technician ID"}
-                    ]
-                }
-            },
-            "/technicians": {"get": {"summary": "Get technicians", "tags": ["Technicians"]}},
-            "/customers": {
-                "get": {
-                    "summary": "Get customers",
-                    "tags": ["Customers"],
-                    "parameters": [
-                        {"name": "search", "in": "query", "schema": {"type": "string"}, "description": "Search term"}
-                    ]
-                }
-            },
-            "/customers/{customer_id}": {
-                "get": {
-                    "summary": "Get customer details",
-                    "tags": ["Customers"],
-                    "parameters": [
-                        {"name": "customer_id", "in": "path", "required": True, "schema": {"type": "integer"}, "description": "Customer ID"}
-                    ]
-                }
-            },
-            "/products": {
-                "get": {
-                    "summary": "Get products",
-                    "tags": ["Products"],
-                    "parameters": [
-                        {"name": "category", "in": "query", "schema": {"type": "string"}, "description": "Product category"}
-                    ]
-                }
-            },
-            "/notifications": {
-                "get": {
-                    "summary": "Get notifications",
-                    "tags": ["Notifications"],
-                    "parameters": [
-                        {"name": "technician_id", "in": "query", "schema": {"type": "integer"}, "description": "Technician ID"}
-                    ]
-                }
-            },
-            "/location/capture": {
-                "post": {
-                    "summary": "Capture current location",
-                    "tags": ["Location"],
-                    "requestBody": {
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "type": "object",
-                                    "properties": {
-                                        "latitude": {"type": "number", "description": "Latitude (-90 to 90)", "example": 40.7128},
-                                        "longitude": {"type": "number", "description": "Longitude (-180 to 180)", "example": -74.0060},
-                                        "ticket_id": {"type": "integer", "description": "Related ticket ID"}
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
+            "/tickets/assigned": {"get": {"tags": ["Tickets"], "parameters": [{"name": "technician_id", "in": "query", "schema": {"type": "integer"}}]}},
+            "/tickets/completed": {"get": {"tags": ["Tickets"], "parameters": [{"name": "technician_id", "in": "query", "schema": {"type": "integer"}}]}},
+            "/technicians": {"get": {"tags": ["Technicians"]}},
+            "/customers": {"get": {"tags": ["Customers"], "parameters": [{"name": "search", "in": "query", "schema": {"type": "string"}}]}},
+            "/customers/{customer_id}": {"get": {"tags": ["Customers"], "parameters": [{"name": "customer_id", "in": "path", "required": True, "schema": {"type": "integer"}}]}},
+            "/products": {"get": {"tags": ["Products"], "parameters": [{"name": "category", "in": "query", "schema": {"type": "string"}}]}},
+            "/notifications": {"get": {"tags": ["Notifications"], "parameters": [{"name": "technician_id", "in": "query", "schema": {"type": "integer"}}]}},
+            "/location/capture": {"post": {"tags": ["Location"], "requestBody": {"content": {"application/json": {"schema": {"type": "object", "properties": {"latitude": {"type": "number", "example": 40.7128}, "longitude": {"type": "number", "example": -74.0060}, "ticket_id": {"type": "integer"}}}}}}}}
         }
     }
 

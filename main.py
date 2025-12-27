@@ -62,13 +62,176 @@ def swagger_spec():
             "description": "Service technician mobile application API"
         },
         "paths": {
-            "/": {"get": {"tags": ["Info"], "summary": "API Information"}},
-            "/auth/login": {"post": {"tags": ["Authentication"], "summary": "Login"}},
-            "/dashboard/stats": {"get": {"tags": ["Dashboard"], "summary": "Dashboard stats"}},
-            "/tickets": {"get": {"tags": ["Tickets"], "summary": "Get tickets"}},
-            "/tickets/{id}": {"get": {"tags": ["Tickets"], "summary": "Get ticket details"}, "put": {"tags": ["Tickets"], "summary": "Update ticket"}},
-            "/notifications": {"get": {"tags": ["Notifications"], "summary": "Get notifications"}},
-            "/location/capture": {"post": {"tags": ["Location"], "summary": "Capture location"}}
+            "/": {
+                "get": {
+                    "tags": ["Info"],
+                    "summary": "API Information",
+                    "responses": {
+                        "200": {
+                            "description": "API info",
+                            "content": {"application/json": {"example": {"message": "Ostrich Service Support API", "version": "1.0.0"}}}
+                        }
+                    }
+                }
+            },
+            "/auth/login": {
+                "post": {
+                    "tags": ["Authentication"],
+                    "summary": "Login",
+                    "requestBody": {
+                        "required": True,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "username": {"type": "string", "example": "service1"},
+                                        "password": {"type": "string", "example": "admin123"}
+                                    },
+                                    "required": ["username", "password"]
+                                }
+                            }
+                        }
+                    },
+                    "responses": {
+                        "200": {"description": "Login successful"},
+                        "401": {"description": "Invalid credentials"}
+                    }
+                }
+            },
+            "/dashboard/stats": {
+                "get": {
+                    "tags": ["Dashboard"],
+                    "summary": "Dashboard stats",
+                    "parameters": [
+                        {
+                            "name": "technician_id",
+                            "in": "query",
+                            "schema": {"type": "integer"},
+                            "description": "Technician ID"
+                        }
+                    ],
+                    "responses": {
+                        "200": {"description": "Dashboard statistics"}
+                    }
+                }
+            },
+            "/tickets": {
+                "get": {
+                    "tags": ["Tickets"],
+                    "summary": "Get tickets",
+                    "parameters": [
+                        {
+                            "name": "status",
+                            "in": "query",
+                            "schema": {"type": "string", "enum": ["pending", "in_progress", "completed"]},
+                            "description": "Filter by status"
+                        },
+                        {
+                            "name": "priority",
+                            "in": "query",
+                            "schema": {"type": "string", "enum": ["low", "medium", "high"]},
+                            "description": "Filter by priority"
+                        }
+                    ],
+                    "responses": {
+                        "200": {"description": "List of tickets"}
+                    }
+                }
+            },
+            "/tickets/{id}": {
+                "get": {
+                    "tags": ["Tickets"],
+                    "summary": "Get ticket details",
+                    "parameters": [
+                        {
+                            "name": "id",
+                            "in": "path",
+                            "required": True,
+                            "schema": {"type": "integer"},
+                            "description": "Ticket ID"
+                        }
+                    ],
+                    "responses": {
+                        "200": {"description": "Ticket details"}
+                    }
+                },
+                "put": {
+                    "tags": ["Tickets"],
+                    "summary": "Update ticket",
+                    "parameters": [
+                        {
+                            "name": "id",
+                            "in": "path",
+                            "required": True,
+                            "schema": {"type": "integer"},
+                            "description": "Ticket ID"
+                        }
+                    ],
+                    "requestBody": {
+                        "required": True,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {"type": "string", "enum": ["pending", "in_progress", "completed"]},
+                                        "latitude": {"type": "number"},
+                                        "longitude": {"type": "number"}
+                                    },
+                                    "required": ["status"]
+                                }
+                            }
+                        }
+                    },
+                    "responses": {
+                        "200": {"description": "Ticket updated"}
+                    }
+                }
+            },
+            "/notifications": {
+                "get": {
+                    "tags": ["Notifications"],
+                    "summary": "Get notifications",
+                    "parameters": [
+                        {
+                            "name": "technician_id",
+                            "in": "query",
+                            "schema": {"type": "integer"},
+                            "description": "Technician ID"
+                        }
+                    ],
+                    "responses": {
+                        "200": {"description": "List of notifications"}
+                    }
+                }
+            },
+            "/location/capture": {
+                "post": {
+                    "tags": ["Location"],
+                    "summary": "Capture location",
+                    "requestBody": {
+                        "required": True,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "latitude": {"type": "number", "example": 40.7128},
+                                        "longitude": {"type": "number", "example": -74.0060},
+                                        "ticket_id": {"type": "integer"}
+                                    },
+                                    "required": ["latitude", "longitude"]
+                                }
+                            }
+                        }
+                    },
+                    "responses": {
+                        "200": {"description": "Location captured"},
+                        "400": {"description": "Missing coordinates"}
+                    }
+                }
+            }
         }
     })
 
@@ -106,11 +269,39 @@ def login():
     username = data.get('username')
     password = data.get('password')
     
+    if not username or not password:
+        return jsonify({"error": "Missing username or password"}), 400
+    
+    # Demo login fallback
     if username == "service1" and password == "admin123":
-        return jsonify({
-            "access_token": "token_service1",
-            "user": {"id": 1, "username": "service1", "name": "John Technician", "role": "technician"}
-        })
+        demo_user = {"id": 1, "username": "service1", "name": "John Technician", "role": "technician"}
+        
+        if not DB_CONNECTED:
+            return jsonify({
+                "access_token": "token_service1",
+                "user": demo_user
+            })
+        
+        # Try database first
+        with engine.connect() as conn:
+            result = conn.execute(text("""
+                SELECT id, username, name, role 
+                FROM users 
+                WHERE username = :username AND password = :password AND role = 'service'
+            """), {"username": username, "password": password})
+            user = result.fetchone()
+            
+            if user:
+                return jsonify({
+                    "access_token": f"token_{username}",
+                    "user": dict(user._mapping)
+                })
+            else:
+                # Fallback to demo user
+                return jsonify({
+                    "access_token": "token_service1",
+                    "user": demo_user
+                })
     
     return jsonify({"error": "Invalid credentials"}), 401
 
@@ -121,20 +312,45 @@ def logout():
 # DASHBOARD SCREEN ENDPOINTS
 @app.route('/dashboard/stats')
 def get_dashboard_stats():
-    return jsonify({
-        "total_tickets": 15,
-        "open_tickets": 8,
-        "in_progress_tickets": 4,
-        "closed_tickets": 3,
-        "high_priority": 3
-    })
+    technician_id = request.args.get('technician_id', 1)
+    
+    if not DB_CONNECTED:
+        return jsonify({
+            "total_tickets": 15,
+            "open_tickets": 8,
+            "in_progress_tickets": 4,
+            "closed_tickets": 3,
+            "high_priority": 3
+        })
+    
+    with engine.connect() as conn:
+        result = conn.execute(text("""
+            SELECT 
+                COUNT(*) as total_tickets,
+                SUM(CASE WHEN status = 'Open' OR status = 'pending' THEN 1 ELSE 0 END) as open_tickets,
+                SUM(CASE WHEN status = 'In Progress' OR status = 'in_progress' THEN 1 ELSE 0 END) as in_progress_tickets,
+                SUM(CASE WHEN status = 'Completed' OR status = 'completed' THEN 1 ELSE 0 END) as closed_tickets,
+                SUM(CASE WHEN priority = 'high' THEN 1 ELSE 0 END) as high_priority
+            FROM service_tickets 
+            WHERE DATE(created_at) >= DATE_SUB(CURDATE(), INTERVAL 30 DAY)
+        """))
+        
+        stats = result.fetchone()
+        return jsonify({
+            "total_tickets": stats.total_tickets if stats else 0,
+            "open_tickets": stats.open_tickets if stats else 0,
+            "in_progress_tickets": stats.in_progress_tickets if stats else 0,
+            "closed_tickets": stats.closed_tickets if stats else 0,
+            "high_priority": stats.high_priority if stats else 0
+        })
 
 @app.route('/tickets')
 def get_tickets():
     status = request.args.get('status')
     priority = request.args.get('priority')
     
-    tickets = [
+    # Mock data fallback
+    mock_tickets = [
         {
             "id": 101,
             "customer_name": "John Smith",
@@ -173,11 +389,46 @@ def get_tickets():
         }
     ]
     
-    # Filter by status if provided
+    if not DB_CONNECTED:
+        tickets = mock_tickets
+    else:
+        with engine.connect() as conn:
+            query = """
+                SELECT 
+                    st.id,
+                    CONCAT(c.first_name, ' ', c.last_name) as customer_name,
+                    c.phone as customer_phone,
+                    p.name as product_name,
+                    st.issue_description,
+                    st.status,
+                    st.priority,
+                    st.created_at,
+                    st.scheduled_time
+                FROM service_tickets st
+                JOIN customers c ON st.customer_id = c.id
+                JOIN products p ON st.product_id = p.id
+                WHERE 1=1
+            """
+            
+            params = {}
+            if status:
+                query += " AND st.status = :status"
+                params['status'] = status
+            if priority:
+                query += " AND st.priority = :priority"
+                params['priority'] = priority
+                
+            query += " ORDER BY st.created_at DESC"
+            
+            result = conn.execute(text(query), params)
+            tickets = [dict(row._mapping) for row in result.fetchall()]
+            
+            if not tickets:  # If no real data, use mock
+                tickets = mock_tickets
+    
+    # Filter mock data if needed
     if status:
         tickets = [t for t in tickets if t['status'] == status]
-    
-    # Filter by priority if provided  
     if priority:
         tickets = [t for t in tickets if t['priority'] == priority]
     
@@ -270,6 +521,21 @@ def get_notifications():
 
 # SYSTEM ENDPOINTS
 @app.route('/docs')
+def api_docs():
+    return jsonify({
+        "title": "Ostrich Service Support API",
+        "version": "1.0.0",
+        "description": "Complete API for service technician mobile application",
+        "swagger_ui": "/swagger/",
+        "demo_credentials": {
+            "username": "service1",
+            "password": "admin123"
+        }
+    })
+
+if __name__ == "__main__":
+    port = int(os.getenv('PORT', 8003))
+    app.run(host="0.0.0.0", port=port, debug=True)')
 def api_docs():
     return jsonify({
         "title": "Ostrich Service Support API",

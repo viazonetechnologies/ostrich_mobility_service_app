@@ -128,10 +128,6 @@ def docs():
     <head>
         <title>Ostrich Service API Documentation</title>
         <link rel="stylesheet" type="text/css" href="https://unpkg.com/swagger-ui-dist@3.25.0/swagger-ui.css" />
-        <style>
-            .swagger-ui .topbar { display: none; }
-            .swagger-ui .info { margin: 20px 0; }
-        </style>
     </head>
     <body>
         <div id="swagger-ui"></div>
@@ -140,8 +136,7 @@ def docs():
         SwaggerUIBundle({
             url: '/openapi.json',
             dom_id: '#swagger-ui',
-            presets: [SwaggerUIBundle.presets.apis, SwaggerUIBundle.presets.standalone],
-            layout: "StandaloneLayout"
+            presets: [SwaggerUIBundle.presets.apis, SwaggerUIBundle.presets.standalone]
         });
         </script>
     </body>

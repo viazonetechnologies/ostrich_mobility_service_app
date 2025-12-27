@@ -535,19 +535,4 @@ def api_docs():
 
 if __name__ == "__main__":
     port = int(os.getenv('PORT', 8003))
-    app.run(host="0.0.0.0", port=port, debug=True)')
-def api_docs():
-    return jsonify({
-        "title": "Ostrich Service Support API",
-        "version": "1.0.0",
-        "description": "Complete API for service technician mobile application",
-        "swagger_ui": "/swagger/",
-        "demo_credentials": {
-            "username": "service1",
-            "password": "admin123"
-        }
-    })
-
-if __name__ == "__main__":
-    port = int(os.getenv('PORT', 8003))
     app.run(host="0.0.0.0", port=port, debug=True)

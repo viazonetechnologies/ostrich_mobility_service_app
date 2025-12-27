@@ -197,6 +197,22 @@ def openapi():
                     }
                 }
             },
+            "/auth/logout": {
+                "post": {
+                    "tags": ["Authentication"],
+                    "summary": "Logout technician",
+                    "responses": {
+                        "200": {
+                            "description": "Logout successful",
+                            "content": {
+                                "application/json": {
+                                    "example": {"message": "Logout successful"}
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             "/dashboard/stats": {
                 "get": {
                     "tags": ["Dashboard"],
@@ -221,6 +237,200 @@ def openapi():
                     "parameters": [
                         {"name": "status", "in": "query", "schema": {"type": "string", "enum": ["open", "in_progress", "completed", "closed"]}},
                         {"name": "technician_id", "in": "query", "schema": {"type": "integer", "example": 1}},
+                        {"name": "priority", "in": "query", "schema": {"type": "string", "enum": ["low", "medium", "high", "urgent"]}}
+                    ],
+                    "responses": {
+                        "200": {
+                            "description": "Ticket list retrieved",
+                            "content": {
+                                "application/json": {
+                                    "example": [{"id": 1, "customer_name": "John Smith", "product_name": "CityRider Scooter", "status": "open", "priority": "high"}]
+                                }
+                            }
+                        }
+                    }
+                },
+                "post": {
+                    "tags": ["Tickets"],
+                    "summary": "Create new service ticket",
+                    "requestBody": {
+                        "required": True,
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "customer_id": {"type": "integer", "example": 1},
+                                        "product_id": {"type": "integer", "example": 1},
+                                        "issue_description": {"type": "string", "example": "Motor not functioning properly"},
+                                        "priority": {"type": "string", "enum": ["low", "medium", "high", "urgent"], "example": "high"}
+                                    },
+                                    "required": ["customer_id", "product_id", "issue_description"]
+                                }
+                            }
+                        }
+                    },
+                    "responses": {
+                        "200": {
+                            "description": "Ticket created successfully",
+                            "content": {
+                                "application/json": {
+                                    "example": {"message": "Ticket created successfully", "id": 1}
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "/tickets/{ticket_id}": {
+                "get": {
+                    "tags": ["Tickets"],
+                    "summary": "Get ticket details",
+                    "parameters": [{"name": "ticket_id", "in": "path", "required": True, "schema": {"type": "integer", "example": 1}}],
+                    "responses": {
+                        "200": {
+                            "description": "Ticket details retrieved",
+                            "content": {
+                                "application/json": {
+                                    "example": {"id": 1, "customer_name": "John Smith", "product_name": "CityRider Scooter", "status": "open"}
+                                }
+                            }
+                        },
+                        "404": {"description": "Ticket not found"}
+                    }
+                },
+                "put": {
+                    "tags": ["Tickets"],
+                    "summary": "Update ticket status and details",
+                    "parameters": [{"name": "ticket_id", "in": "path", "required": True, "schema": {"type": "integer", "example": 1}}],
+                    "requestBody": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "status": {"type": "string", "enum": ["open", "in_progress", "completed", "closed"]},
+                                        "priority": {"type": "string", "enum": ["low", "medium", "high", "urgent"]},
+                                        "notes": {"type": "string", "example": "Replaced motor component"}
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "responses": {
+                        "200": {
+                            "description": "Ticket updated successfully",
+                            "content": {
+                                "application/json": {
+                                    "example": {"message": "Ticket updated successfully"}
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "/customers": {
+                "get": {
+                    "tags": ["Customers"],
+                    "summary": "Get customer list",
+                    "parameters": [{"name": "search", "in": "query", "schema": {"type": "string", "example": "John"}}],
+                    "responses": {
+                        "200": {
+                            "description": "Customer list retrieved",
+                            "content": {
+                                "application/json": {
+                                    "example": [{"id": 1, "name": "John Smith", "phone": "(555) 123-4567", "email": "john@example.com"}]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "/customers/{customer_id}": {
+                "get": {
+                    "tags": ["Customers"],
+                    "summary": "Get customer details",
+                    "parameters": [{"name": "customer_id", "in": "path", "required": True, "schema": {"type": "integer", "example": 1}}],
+                    "responses": {
+                        "200": {
+                            "description": "Customer details retrieved",
+                            "content": {
+                                "application/json": {
+                                    "example": {"id": 1, "name": "John Smith", "phone": "(555) 123-4567", "address": "123 Main St"}
+                                }
+                            }
+                        },
+                        "404": {"description": "Customer not found"}
+                    }
+                }
+            },
+            "/products": {
+                "get": {
+                    "tags": ["Products"],
+                    "summary": "Get product list",
+                    "parameters": [{"name": "category", "in": "query", "schema": {"type": "string", "example": "Mobility Scooters"}}],
+                    "responses": {
+                        "200": {
+                            "description": "Product list retrieved",
+                            "content": {
+                                "application/json": {
+                                    "example": [{"id": 1, "name": "CityRider Scooter", "category": "Mobility Scooters"}]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "/notifications": {
+                "get": {
+                    "tags": ["Notifications"],
+                    "summary": "Get technician notifications",
+                    "parameters": [{"name": "technician_id", "in": "query", "schema": {"type": "integer", "example": 1}}],
+                    "responses": {
+                        "200": {
+                            "description": "Notifications retrieved",
+                            "content": {
+                                "application/json": {
+                                    "example": [{"id": 1, "title": "New High Priority Ticket", "message": "Urgent ticket assigned to you", "type": "assignment", "read": False}]
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "/location/capture": {
+                "post": {
+                    "tags": ["Location"],
+                    "summary": "Capture technician location",
+                    "requestBody": {
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "latitude": {"type": "number", "example": 40.7128},
+                                        "longitude": {"type": "number", "example": -74.0060},
+                                        "ticket_id": {"type": "integer", "example": 1},
+                                        "accuracy": {"type": "string", "example": "5m"}
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "responses": {
+                        "200": {
+                            "description": "Location captured successfully",
+                            "content": {
+                                "application/json": {
+                                    "example": {"message": "Location captured successfully", "latitude": 40.7128, "longitude": -74.0060}
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }teger", "example": 1}},
                         {"name": "priority", "in": "query", "schema": {"type": "string", "enum": ["low", "medium", "high", "urgent"]}}
                     ],
                     "responses": {
@@ -390,6 +600,43 @@ def login():
 def logout():
     """Logout technician"""
     return jsonify({"message": "Logout successful"})
+
+@app.route('/customers/<int:customer_id>', methods=['GET'])
+def get_customer_details(customer_id):
+    """Get detailed customer information"""
+    if not validate_integer(customer_id, min_val=1):
+        return jsonify({"error": "Invalid customer ID"}), 400
+    
+    customer_details = {
+        "id": customer_id,
+        "name": "John Smith",
+        "phone": "(555) 123-4567",
+        "email": "john@example.com",
+        "address": "123 Main Street, Downtown",
+        "registration_date": "2022-01-15",
+        "total_orders": 3,
+        "active_products": 2
+    }
+    
+    if engine:
+        try:
+            with engine.connect() as conn:
+                result = conn.execute(text(
+                    "SELECT id, name, phone, email, address, created_at FROM customers WHERE id = :customer_id"
+                ), {"customer_id": customer_id})
+                
+                customer = result.fetchone()
+                if customer:
+                    customer_details = {
+                        "id": customer[0], "name": customer[1], "phone": customer[2],
+                        "email": customer[3], "address": customer[4], "registration_date": str(customer[5])
+                    }
+                else:
+                    return jsonify({"error": "Customer not found"}), 404
+        except Exception as e:
+            print(f"Database error: {e}")
+    
+    return jsonify(customer_details)
 
 # ============================================================================
 # DASHBOARD ENDPOINTS

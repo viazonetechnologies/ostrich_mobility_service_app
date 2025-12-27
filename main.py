@@ -76,24 +76,34 @@ def validate_request_data(required_fields=None, optional_fields=None):
     def decorator(f):
         @wraps(f)
         def decorated_function(*args, **kwargs):
+            # Allow GET requests without data
+            if request.method == 'GET':
+                return f(*args, **kwargs)
+            
             data = request.get_json() if request.is_json else request.form.to_dict()
             
-            if not data:
+            # Allow POST requests without required fields if none specified
+            if not required_fields and not data:
+                return f(*args, **kwargs)
+            
+            if required_fields and not data:
                 return jsonify({"error": "No data provided"}), 400
             
             # Validate required fields
-            if required_fields:
+            if required_fields and data:
                 for field in required_fields:
                     if field not in data or not data[field]:
                         return jsonify({"error": f"Missing required field: {field}"}), 400
             
             # Sanitize all string inputs
-            for key, value in data.items():
-                if isinstance(value, str):
-                    data[key] = sanitize_input(value)
+            if data:
+                for key, value in data.items():
+                    if isinstance(value, str):
+                        data[key] = sanitize_input(value)
+                
+                # Store validated data in request context
+                request.validated_data = data
             
-            # Store validated data in request context
-            request.validated_data = data
             return f(*args, **kwargs)
         return decorated_function
     return decorator
@@ -769,6 +779,27 @@ def get_customers():
             return jsonify(customers)
     except Exception as e:
         return jsonify([{"id": 1, "name": "Demo Customer", "phone": "(555) 123-4567"}])
+
+# Technician APIs
+@app.route('/technicians', methods=['GET'])
+def get_technicians():
+    if not engine:
+        return jsonify([
+            {"id": 1, "username": "service1", "name": "John Technician", "role": "technician", "status": "active"},
+            {"id": 2, "username": "service2", "name": "Sarah Tech", "role": "technician", "status": "active"}
+        ])
+    
+    try:
+        with engine.connect() as conn:
+            result = conn.execute(text("SELECT id, username, role FROM users WHERE role = 'technician'"))
+            technicians = []
+            for row in result:
+                technicians.append({
+                    "id": row[0], "username": row[1], "role": row[2], "status": "active"
+                })
+            return jsonify(technicians)
+    except Exception as e:
+        return jsonify([{"id": 1, "username": "service1", "role": "technician", "status": "active"}])
 
 @app.route('/customers/<int:customer_id>', methods=['GET'])
 def get_customer_details(customer_id):
